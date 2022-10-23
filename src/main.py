@@ -1,4 +1,5 @@
 import modules
 
-print(modules.GPS.sixty_to_ten(29))
 
+if __name__ == "__main__":
+    print("hello world")
