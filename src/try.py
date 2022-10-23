@@ -1,22 +1,18 @@
-import cds
-import GPS
-import servo
-import xbee_send
-import DCmotor
+import modules as md
 
 for i in range(10):
-    data = str(GPS.Read_data)
+    data = str(md.GPS.Read_data)
     print(data)
 
-servo.role(90)
+md.servo.role(90)
 
 t = 1000
 duty = 0.5
-DCmotor.foword(duty , t)
-DCmotor.back(duty , t)
-DCmotor.left_role(duty , t)
-DCmotor.right_role(duty , t)
+md.DCmotor.foword(duty , t)
+md.DCmotor.back(duty , t)
+md.DCmotor.left_role(duty , t)
+md.DCmotor.right_role(duty , t)
 
-cds.read()
+md.cds.read()
 
-xbee_send.send_message(DATA_TO_SEND="Hello Xbee!")
+md.xbee_send.send_message(DATA_TO_SEND="Hello Xbee!")
