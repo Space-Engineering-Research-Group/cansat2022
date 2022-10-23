@@ -1,4 +1,5 @@
 # cansat2022
+<<<<<<< HEAD
 Welcome to our repository(space club)
 
 # 缶サットの動きについて
@@ -16,3 +17,6 @@ Welcome to our repository(space club)
 - 目的地へ移動開始
   - GPSの値を頼りにモーターを動かして走行
 - 目的地へ移動完了
+=======
+test
+>>>>>>> 58d7381 (test)

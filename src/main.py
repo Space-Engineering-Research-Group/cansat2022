@@ -2,6 +2,7 @@ import modules
 import RPi.GPIO as GPIO
 import math
 
+<<<<<<< HEAD
 GPIO.setmode(GPIO.BCM)     # set up BCM GPIO numbering
 GPIO.setup(25, GPIO.IN)
 
@@ -85,3 +86,8 @@ def goals_data():
 
 if __name__ == "__main__":
     main()
+=======
+
+if __name__ == "__main__":
+    print("hello world")
+>>>>>>> 58d7381 (test)
