@@ -5,3 +5,7 @@ from . import LCD
 from . import servo
 from . import wpi3_GPS
 from . import xbee_send
+
+# TODO: choase pins
+CDS_PIN = 25
+
