@@ -2,8 +2,8 @@
 import pigpio
 import numpy as np
 
-#PWM信号はGPIO18
-GPIO_PIN = 18
+#PWM信号はGPIO19
+GPIO_PIN = 19
 def role(angle):
     deg = float(angle)
 

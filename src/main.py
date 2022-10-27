@@ -1,6 +1,7 @@
 import modules
 import RPi.GPIO as GPIO
 import math
+from set_Goal import set_goal
 
 GPIO.setmode(GPIO.BCM)     # set up BCM GPIO numbering
 GPIO.setup(25, GPIO.IN)
@@ -11,9 +12,11 @@ Rp = 6356.8 * 1000#[m] (地球の極半径)
 Re = 6378.1 * 1000#[m] (地球の赤道半径)
 pi = 3.141592
 
-gps_start = [gps()]
+gps_start = modules.GPS.Read_data()
 gps_x0 = gps_start[-1]
 gps_y0 = gps_start[-2]
+
+goal_gps = 0, 0     #初期化
 
 def main():
     #TODO: 落下してからパラシュートを切り離すまでの動作
@@ -22,13 +25,28 @@ def main():
             break
 
     #TODO: ゴールするまでの動作
-    while calc_moment(x = 2*pi*Re*(gps_x0 / 360) , y = 2*pi*Rp*(gps_y0 / 360) , data='d') < 10:
+    while calc_moment(x = 2*pi*Re*(gps_x0 / 360) , y = 2*pi*Rp*(gps_y0 / 360) , data='d') < 10:     #10メートル進むまで直進する
         move_motor(direc='fd' , duty=1.0 , time=1000)
-        temp_gps = gps()
-        xbee(temp_gps)
+        xbee("Moved 10m!")
         
-         
+    while 1:
+        xbee(gps)
+        to_goal_arg = calc_moment(x0 = modules.GPS.GPS_xonly(), y0 = modules.GPS.GPS_yonly(), x = goal_gps[-1], y = goal_gps[-2], data='s')       #ゴールへの角度
+        while to_goal_arg != 0:
+            move_motor(direc='fd', duty = 1.0, time = 500)
+            if to_goal_arg > 0:
+                move_motor(direc='rt', duty = 0.5, time = 500)
+            elif to_goal_arg < 0:
+                move_motor(direc='lt', duty = 0.5, time = 500)
 
+        to_goal_direc = calc_moment(x0 = modules.GPS.GPS_xonly(), y0 = modules.GPS.GPS_yonly(), x = goal_gps[-1], y = goal_gps[-2], data='d')
+        if to_goal_arg == 0:
+            xbee("Arrived Goal")
+            break
+        else:
+            xbee(to_goal_direc)
+
+    return 0
 # --------------------------------------------
 
 
@@ -67,8 +85,13 @@ def move_motor(direc , duty , time):
         return modules.DCmotor.left_role(duty ,time) 
 
 #TODO: GPSを読み取る関数
-def gps():
-    return modules.GPS.Read_data()
+def gps(option = 'all'):
+    gps_now = modules.GPS.Read_data()
+    x, y = gps_now[-1], gps_now[-2]
+    if option == 'xy':
+        return x, y
+    else:
+        return gps_now
 
 #TODO: xbeeでデータを送る関数
 def xbee(s):
@@ -81,7 +104,10 @@ def goals_data():
             gps_data = gps()
             xbee(gps_data)
         except KeyboardInterrupt:
-            return gps()
+            global goal_gps
+            goal_gps = gps(option='xy')
+            return goal_gps
+            
 
 if __name__ == "__main__":
     main()
