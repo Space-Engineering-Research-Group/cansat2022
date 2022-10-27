@@ -21,9 +21,9 @@ alt_lat_long = '0,0,0'     #GPSから得られる、高度、緯度、経度の�
 num_sat = '0'   #GPSから得られる、衛星の個数の情報
 
 def sixty_to_ten(x):
-  ans = float(int(x) + ((x - int(x)))*100/60) 
+  ans = float(int(x) + ((x - int(x)))*100/60)
   return ans
-  
+
 #GGA用のファイル初期化
 f = open('/home/pi/data/datagga.csv','w')
 f.write('yyyy-mm-dd HH:MM:SS.ffffff ,a number of satellites ,high ,latitude ,longitude \n')  #出力フォーマット
@@ -45,16 +45,16 @@ print ("No. ,Elevation in degrees ,degrees in true north \n")
 ##############################################################################
 while True:
   gps_data = ser.readline()  #1行ごとに読み込み、処理を繰り返す
-  if not gps_data: 
-    print("no data")                      
-  #GGA GPSセンサの位置情報を知る 
+  if not gps_data:
+    print("no data")
+  #GGA GPSセンサの位置情報を知る
   #$GPGGA,UTC時刻,緯度,緯度の南北,経度,経度の東西,位置特定品質,使用衛星数,
   #水平精度低下率,海抜高さ,高さの単位,ジオイド高さ,高さの単位,DGPS,差動基準地点
   if (gps_data.startswith('$GPGGA')): #startswith:1行の先頭文字を検索する
     gpgga = (gps_data.split(",")) #split:1行をカンマで区切って変数にlist型で保存
     #緯度と経度の情報を、listからfloatに直す
     if gpgga[2]:
-      lat_60,long_60,altitude = float(gpgga[2]),float(gpgga[4]),float(gpgga[9]) 
+      lat_60,long_60,altitude = float(gpgga[2]),float(gpgga[4]),float(gpgga[9])
     else:
       lat_60,long_60,altitude = 0,0,0    #緯度の情報が無い
     #緯度と経度を60進法から10進法に変換、東経と北緯で計算
@@ -99,7 +99,7 @@ while True:
   if (gps_data.startswith('$GPZDA')):
     gpzda = (gps_data.split(","))
     #GPSで取得したUTCの日付を保存する
-    yyyymmddhhmmssff = datetime.datetime.strptime(gpzda[4] + '/' + gpzda[3] + '/' + gpzda[2] + ' ' + gpzda[1],"%Y/%m/%d %H%M%S.%f")    
+    yyyymmddhhmmssff = datetime.datetime.strptime(gpzda[4] + '/' + gpzda[3] + '/' + gpzda[2] + ' ' + gpzda[1],"%Y/%m/%d %H%M%S.%f")
     time_and_number = "%s,%s" % (yyyymmddhhmmssff,num_sat)
     #ファイル名を書き換える
     #GGAのデータを標準出力、加えてcsvファイルに出力
