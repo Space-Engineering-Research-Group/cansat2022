@@ -1,7 +1,6 @@
 import modules
 import RPi.GPIO as GPIO
 import math
-from set_Goal import set_goal
 
 GPIO.setmode(GPIO.BCM)     # set up BCM GPIO numbering
 GPIO.setup(25, GPIO.IN)
