@@ -11,8 +11,6 @@ def main():
         gps_data = modules.GPS.Read_data()
         if GPIO.input(CDS_PIN):
             deployment()
-        if jsfjasiofjsioajfiosjfoisjdaf:
-            add()
 
 # --------------------------------------------
 
@@ -27,10 +25,6 @@ def calc_moment():
 
 #TODO: モーターを動かすコードを書く
 def move_motor():
-    return
-
-#TODO: aとbをたしあわせて、返す関数の実装
-def add(a, b):
     return
 
 if __name__ == "__main__":
