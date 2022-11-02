@@ -81,11 +81,11 @@ pi = 3.141592
 
 def GPS_xonly():
     gps_data = [Read_data()]
-    x = 2 * pi * Re * (gps_data[-2] / 360)
+    x = 2 * pi * Re * (gps_data[-1] / 360)
     return x#[m]
     
 
 def GPS_yonly():
     gps_data = [Read_data()]
-    y = 2 * pi * Rp * (gps_data[-1] / 360)
+    y = 2 * pi * Rp * (gps_data[-2] / 360)
     return y#[m]
