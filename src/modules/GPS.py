@@ -1,3 +1,4 @@
+from tkinter.messagebox import RETRY
 import serial
 import os
 import datetime
@@ -73,3 +74,18 @@ def Read_data():
             yyyymmddhhmmssff = datetime.datetime.strptime(gpzda[4] + '/' + gpzda[3] + '/' + gpzda[2] + ' ' + gpzda[1],"%Y/%m/%d %H%M%S.%f")    
             time_and_number = "%s,%s" % (yyyymmddhhmmssff,num_sat)
             return(time_and_number + ',' + alt_lat_long)
+
+Rp = 6356.8 * 1000#[m] (地球の極半径)
+Re = 6378.1 * 1000#[m] (地球の赤道半径)
+pi = 3.141592
+
+def GPS_xonly():
+    gps_data = [Read_data()]
+    x = 2 * pi * Re * (gps_data[-2] / 360)
+    return x#[m]
+    
+
+def GPS_yonly():
+    gps_data = [Read_data()]
+    y = 2 * pi * Rp * (gps_data[-1] / 360)
+    return y#[m]
