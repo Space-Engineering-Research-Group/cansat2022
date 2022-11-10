@@ -11,15 +11,16 @@ Rp = 6356.8 * 1000#[m] (地球の極半径)
 Re = 6378.1 * 1000#[m] (地球の赤道半径)
 pi = 3.141592
 
+gps_start = [gps()]
+gps_x0 = gps_start[-1]
+gps_y0 = gps_start[-2]
+
 def main():
     #TODO: 落下してからパラシュートを切り離すまでの動作
     while GPIO.input(CDS_PIN) >= 100:   #TODO: CDSが読み取る値　要検証
             deployment(90)
             break
 
-    gps_start = [gps()]
-    gps_x0 = gps_start[-1]
-    gps_y0 = gps_start[-2]
     #TODO: ゴールするまでの動作
     while calc_moment(x = 2*pi*Re*(gps_x0 / 360) , y = 2*pi*Rp*(gps_y0 / 360) , data='d') < 10:
         move_motor(direc='fd' , duty=1.0 , time=1000)
@@ -36,13 +37,19 @@ def deployment(angle):
     return modules.servo.role(angle)
 
 #TODO: 2つの座補から角度と距離を返す関数
-def calc_moment(x0 , y0 , x=modules.GPS.GPS_xonly() , y=modules.GPS.GPS_yonly() , data='a'):
+def calc_moment(
+    x0 = modules.GPS.GPS_xonly(gps_data=gps_x0),
+    y0 = modules.GPS.GPS_yonly(gps_data=gps_y0),
+    x = modules.GPS.GPS_xonly(),
+    y = modules.GPS.GPS_yonly(),
+    data='a'
+    ):
     distance_x = x - x0
     distance_y = y - y0
     distance = math.sqrt(distance_x**2 + distance_y**2)
     sita = math.atan(distance_y/distance_x)
     if data == 'd':
-        return float(distance)
+        return float(distance)#[m]
     elif data == 's':
         return float(sita)
     else:

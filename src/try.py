@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import modules
 
 for i in range(10):
@@ -17,7 +16,6 @@ modules.DCmotor.right_role(duty , t)
 modules.cds.read()
 
 modules.xbee_send.send_message(DATA_TO_SEND="Hello Xbee!")
-=======
 import modules as md
 
 for i in range(10):
@@ -36,4 +34,3 @@ md.DCmotor.right_role(duty , t)
 md.cds.read()
 
 md.xbee_send.send_message(DATA_TO_SEND="Hello Xbee!")
->>>>>>> 1fceb03ca6e31243c80578405aeeffc8ca3820b7

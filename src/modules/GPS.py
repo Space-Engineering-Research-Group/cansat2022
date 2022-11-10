@@ -79,13 +79,11 @@ Rp = 6356.8 * 1000#[m] (地球の極半径)
 Re = 6378.1 * 1000#[m] (地球の赤道半径)
 pi = 3.141592
 
-def GPS_xonly():
-    gps_data = [Read_data()]
-    x = 2 * pi * Re * (gps_data[-1] / 360)
+def GPS_xonly(gps_data = [Read_data()]):
+    x = 2 * pi * Re * (gps_data[-1] / 360)  #2πr * θ/360
     return x#[m]
     
 
-def GPS_yonly():
-    gps_data = [Read_data()]
-    y = 2 * pi * Rp * (gps_data[-2] / 360)
+def GPS_yonly(gps_data = [Read_data()]):
+    y = 2 * pi * Rp * (gps_data[-2] / 360)  #2πr * θ/360 
     return y#[m]
