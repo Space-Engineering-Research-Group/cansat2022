@@ -26,8 +26,6 @@ def main():
         move_motor(direc='fd' , duty=1.0 , time=1000)
         temp_gps = gps()
         xbee(temp_gps)
-        
-         
 
 # --------------------------------------------
 
